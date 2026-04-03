@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://4ia6wloi8nk2"]
+
+[ext_resource type="Script" path="res://scripts/minion.gd" id="1_rphog"]
+[ext_resource type="Texture2D" uid="uid://bu1kyvej7v2jh" path="res://assets/minion(final)-Recovered.png" id="2_8weoj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xqt88"]
+radius = 7.0
+
+[node name="Minion" type="CharacterBody2D" groups=["enemies"]]
+texture_filter = 1
+collision_layer = 3
+collision_mask = 2
+script = ExtResource("1_rphog")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_xqt88")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_8weoj")
+hframes = 11

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmfvluuf37g5u"]
+
+[ext_resource type="Texture2D" uid="uid://cxtbrn4x70f8b" path="res://assets/real_boss.png" id="1_fcvf2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h7byv"]
+height = 50.0
+
+[node name="boss" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -0.25)
+scale = Vector2(1, 0.991228)
+texture = ExtResource("1_fcvf2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_h7byv")

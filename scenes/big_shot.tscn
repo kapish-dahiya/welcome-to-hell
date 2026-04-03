@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://ctsr3xbljtqq7"]
+
+[ext_resource type="Script" path="res://scripts/big_shot.gd" id="1_4ktn5"]
+[ext_resource type="Texture2D" uid="uid://cwx5xvporfid0" path="res://assets/big_shot.png" id="1_6o7i2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iw136"]
+radius = 13.0
+height = 172.0
+
+[sub_resource type="Animation" id="Animation_qi55q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_l5xu6"]
+resource_name = "boom"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wiloi"]
+_data = {
+"RESET": SubResource("Animation_qi55q"),
+"boom": SubResource("Animation_l5xu6")
+}
+
+[node name="BigShot" type="Area2D"]
+script = ExtResource("1_4ktn5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(86, -0.5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_iw136")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(90, 0)
+texture = ExtResource("1_6o7i2")
+hframes = 6
+
+[node name="BigShotAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wiloi")
+}
+
+[connection signal="animation_finished" from="BigShotAnim" to="." method="_on_big_shot_anim_animation_finished"]

@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6ol1citbml2a"]
+
+[ext_resource type="Texture2D" uid="uid://ximabfatubpw" path="res://assets/small_shot.png" id="1_hnbjb"]
+[ext_resource type="Script" path="res://scripts/small_shot.gd" id="1_tgsdj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ykxfw"]
+radius = 15.0
+height = 60.0
+
+[sub_resource type="Animation" id="Animation_eridm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_hkpuv"]
+resource_name = "boom"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dd8lm"]
+_data = {
+"RESET": SubResource("Animation_eridm"),
+"boom": SubResource("Animation_hkpuv")
+}
+
+[node name="SmallShot" type="Area2D"]
+script = ExtResource("1_tgsdj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(30, -0.5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ykxfw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(30, -0.5)
+texture = ExtResource("1_hnbjb")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_dd8lm")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
