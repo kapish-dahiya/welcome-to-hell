@@ -7,7 +7,7 @@ var arrow_scene = preload("res://scenes/arrow.tscn")
 var big_shot_scene = preload("res://scenes/big_shot.tscn")
 var small_shot_scene = preload("res://scenes/small_shot.tscn")
 
-@onready var bow = $bow
+@onready var bow = $Bow
 @onready var animation = $AnimationPlayer
 #health 
 @onready var invulnerability_timer = $Invulnerability
@@ -16,9 +16,8 @@ var small_shot_scene = preload("res://scenes/small_shot.tscn")
 const SPEED = 120
 var charged_held_time = 0
 
-
+	
 @export var max_health = 100
-@export	var is_attacking:bool = false
 @onready var health = max_health :set = _set_health
 
 func kill():
@@ -46,26 +45,27 @@ func _set_health(value):
 	if health == 0:
 		kill()
 
+
+@export var is_attacking:bool
 func _physics_process(_delta):
+	is_attacking = false
 	#have to implement: stop player from moving if attacking
-	if !is_attacking:
-		bow.look_at(get_global_mouse_position())
 	
 	if Input.is_action_pressed("shoot") and not is_attacking:
-		$bow/BowAnimationPlayer.play("bow")
+		is_attacking = true
+		$Bow/BowAnimationPlayer.play("bow")
 		charged_held_time += _delta
 		
 	if is_attacking:
 		velocity = Vector2.ZERO
+		
 	
 	if Input.is_action_just_released("shoot"):
 		if charged_held_time >= 2:
-			$bow/BowAnimationPlayer.play("RESET")
+			#is_attacking = true
+			$Bow/BowAnimationPlayer.play("RESET")
 			charged_held_time = 0
 			print("charge time: ", charged_held_time)
-			#bow.global_position = bow.global_position
-			#await get_tree().create_timer(0.9).timeout
-			#bow.look_at(get_global_mouse_position())
 			
 			var big_shot = big_shot_scene.instantiate()
 			var arrow = arrow_scene.instantiate()
@@ -74,32 +74,43 @@ func _physics_process(_delta):
 			print("shot position: ")
 			get_tree().current_scene.add_child(arrow)
 			get_tree().current_scene.add_child(big_shot)
+			is_attacking = false
 			#start atk cooldown
 			
 		elif charged_held_time >= 1:
-			$bow/BowAnimationPlayer.play("RESET")
+			#is_attacking = true
+			$Bow/BowAnimationPlayer.play("RESET")
 			charged_held_time = 0
 			var big_shot = big_shot_scene.instantiate()
 			big_shot.global_position = bow.global_position
+			big_shot.global_position = big_shot.global_position
 			print("shot position: ")
 			get_tree().current_scene.add_child(big_shot)
+			is_attacking = false
 			#start atk cooldown
 			
 		elif charged_held_time >= 0.25:
-			$bow/BowAnimationPlayer.play("RESET")
+			#is_attacking = true
+			$Bow/BowAnimationPlayer.play("RESET")
 			charged_held_time = 0
 			
 			var small_shot = small_shot_scene.instantiate()
 			small_shot.global_position = bow.global_position
+			small_shot.global_position = small_shot.global_position
 			print("small shot position: ")
 			get_tree().current_scene.add_child(small_shot)
+			
+			is_attacking = false
 			#start atk cooldown
 			
 		else:
-			$bow/BowAnimationPlayer.play("RESET")
+			#is_attacking = false
+			$Bow/BowAnimationPlayer.play("RESET")
 			
 	else:
 		if not is_attacking:
+			bow.look_at(get_global_mouse_position())
+			
 			var input_vector = Vector2(Input.get_vector("left", "right", "up", "down")).normalized()
 			velocity = input_vector * SPEED
 			
@@ -115,7 +126,6 @@ func _physics_process(_delta):
 				Vector2(1, 0): animation.play("walk_down_right")
 				Vector2(-1, 0): animation.play("walk_down_left")
 				Vector2.ZERO: animation.play(animation.current_animation.replace("walk", "reset"))
-			
 			move_and_slide()
 
 	for i in range (get_slide_collision_count()):

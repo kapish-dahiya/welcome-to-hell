@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxwmtksv4wfwk"]
+
+[ext_resource type="PackedScene" uid="uid://blqtaiqqw1t03" path="res://scenes/cage.tscn" id="1_2vx3i"]
+
+[node name="Cage Horizontal" type="StaticBody2D"]
+
+[node name="Cage" parent="." instance=ExtResource("1_2vx3i")]
+rotation = 1.5708
