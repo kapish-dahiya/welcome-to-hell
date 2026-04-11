@@ -1,9 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://blqtaiqqw1t03"]
+[gd_scene load_steps=8 format=3 uid="uid://blqtaiqqw1t03"]
 
 [ext_resource type="Texture2D" uid="uid://c5a20g6dhtv0w" path="res://assets/cage_final.png" id="1_h1i2x"]
 [ext_resource type="Script" path="res://scripts/cage.gd" id="1_vegto"]
+[ext_resource type="Script" path="res://scripts/HurtArea2d.gd" id="2_yvm5f"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_k737k"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_vcego"]
+radius = 23.0
+
+[sub_resource type="Animation" id="Animation_878xm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_mgdb1"]
 resource_name = "cage"
@@ -22,39 +39,35 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
-[sub_resource type="Animation" id="Animation_878xm"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [7]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_myqnf"]
 _data = {
 "RESET": SubResource("Animation_878xm"),
 "cage": SubResource("Animation_mgdb1")
 }
 
-[node name="Cage" type="StaticBody2D"]
-physics_material_override = SubResource("PhysicsMaterial_k737k")
+[node name="Cage" type="Node2D"]
 script = ExtResource("1_vegto")
+
+[node name="HurtArea2d" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("2_yvm5f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2d"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_vcego")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-20, 0, -19, -5, -17, -10, -14, -14, -10, -17, -5, -19, 0, -20, 5, -19, 10, -17, 14, -14, 17, -10, 19, -5, 20, 0, 20, -5, 18, -10, 15, -14, 11, -17, 6, -19, 1, -20, -5, -20, -10, -18, -14, -15, -17, -11, -19, -6, -20, -1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -14)
 texture = ExtResource("1_h1i2x")
 hframes = 8
-frame = 7
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-20, 0, -19, -5, -17, -10, -14, -14, -10, -17, -5, -19, 0, -20, 5, -19, 10, -17, 14, -14, 17, -10, 19, -5, 20, 0, 20, -5, 18, -10, 15, -14, 11, -17, 6, -19, 1, -20, -5, -20, -10, -18, -14, -15, -17, -11, -19, -6, -20, -1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddyd2i0p5om8y"]
+
+[ext_resource type="Script" path="res://scripts/shooter_statue.gd" id="1_q6sta"]
+[ext_resource type="Script" path="res://scripts/HurtArea2d.gd" id="2_40or8"]
+[ext_resource type="Texture2D" uid="uid://c5kk837rgkth4" path="res://assets/statue_men.png" id="2_1723n"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i82un"]
+radius = 11.5
+height = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iya6m"]
+radius = 8.0
+height = 26.0
+
+[node name="ShooterStatue" type="CharacterBody2D" groups=["enemies"]]
+texture_filter = 1
+position = Vector2(89, 84)
+script = ExtResource("1_q6sta")
+
+[node name="HurtArea2d" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("2_40or8")
+
+[node name="HurtCollisionShape2D" type="CollisionShape2D" parent="HurtArea2d"]
+position = Vector2(-0.5, 0)
+shape = SubResource("CapsuleShape2D_i82un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_iya6m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.5, 0)
+texture = ExtResource("2_1723n")
+hframes = 3
+
+[node name="BombTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="BombShooter" type="Marker2D" parent="."]
+position = Vector2(0, -19)
+
+[node name="FireSpawner" type="Marker2D" parent="."]
+position = Vector2(25, -71)
+
+[node name="FireSpawner2" type="Marker2D" parent="."]
+position = Vector2(145, -78)
+
+[node name="FireSpawner3" type="Marker2D" parent="."]
+position = Vector2(-86, -81)
+
+[node name="FireSpawner4" type="Marker2D" parent="."]
+position = Vector2(245, -81)
+
+[connection signal="timeout" from="BombTimer" to="." method="_on_bomb_timer_timeout"]

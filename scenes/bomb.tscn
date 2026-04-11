@@ -192,7 +192,7 @@ texture = ExtResource("2_vp30i")
 position = Vector2(5.5, 5)
 shape = SubResource("CapsuleShape2D_c44pi")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["enemies"]]
 libraries = {
 "": SubResource("AnimationLibrary_jfcok")
 }

@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://bsg7bvtnl6nj3"]
+
+[ext_resource type="Script" path="res://scripts/trap_statue.gd" id="1_vmgrl"]
+[ext_resource type="Texture2D" uid="uid://c5kk837rgkth4" path="res://assets/statue_men.png" id="2_hu47i"]
+[ext_resource type="PackedScene" uid="uid://blqtaiqqw1t03" path="res://scenes/cage.tscn" id="2_huxs0"]
+[ext_resource type="Script" path="res://scripts/HurtArea2d.gd" id="2_jive8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dcgyl"]
+radius = 11.0
+height = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i82un"]
+radius = 7.5
+height = 26.0
+
+[node name="TrapStatue" type="CharacterBody2D" groups=["enemies"]]
+position = Vector2(260, 82)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_vmgrl")
+cage_scene = ExtResource("2_huxs0")
+
+[node name="HurtArea2d" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("2_jive8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea2d"]
+shape = SubResource("CapsuleShape2D_dcgyl")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+z_index = 1
+position = Vector2(-0.5, 0)
+shape = SubResource("CapsuleShape2D_i82un")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.5, 0)
+texture = ExtResource("2_hu47i")
+hframes = 3
+frame = 2
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

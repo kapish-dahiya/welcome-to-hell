@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6ol1citbml2a"]
+[gd_scene load_steps=8 format=3 uid="uid://c6ol1citbml2a"]
 
 [ext_resource type="Texture2D" uid="uid://ximabfatubpw" path="res://assets/small_shot.png" id="1_hnbjb"]
 [ext_resource type="Script" path="res://scripts/small_shot.gd" id="1_tgsdj"]
+[ext_resource type="Script" path="res://scripts/HitArea2d.gd" id="2_kuplb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ykxfw"]
 radius = 15.0
@@ -24,7 +25,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/path = NodePath("HitArea2d/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -53,7 +54,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/path = NodePath("HitArea2d/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -69,10 +70,15 @@ _data = {
 "boom": SubResource("Animation_hkpuv")
 }
 
-[node name="SmallShot" type="Area2D"]
+[node name="SmallShot" type="Node2D"]
 script = ExtResource("1_tgsdj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitArea2d" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_kuplb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea2d"]
 position = Vector2(30, -0.5)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_ykxfw")

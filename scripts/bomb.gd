@@ -1,5 +1,5 @@
 extends RigidBody2D
-var bomb_speed = 700
+var bomb_speed = 70
 var throw_direction = Vector2(150,-150).normalized()
 func _ready() -> void:
 	linear_velocity = bomb_speed*throw_direction
@@ -11,5 +11,5 @@ func _ready() -> void:
 	
 
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	queue_free()

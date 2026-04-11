@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxbt6ffg4sd3k"]
+
+[ext_resource type="Script" path="res://scripts/spawner_statue.gd" id="1_0ualh"]
+[ext_resource type="PackedScene" uid="uid://4ia6wloi8nk2" path="res://scenes/minion.tscn" id="2_s05dw"]
+[ext_resource type="Script" path="res://scripts/HurtArea2d.gd" id="3_l0j6i"]
+[ext_resource type="Texture2D" uid="uid://c5kk837rgkth4" path="res://assets/statue_men.png" id="4_1hgup"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2v46o"]
+radius = 9.0
+height = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i82un"]
+radius = 7.0
+height = 24.0
+
+[node name="SpawnerStatue" type="CharacterBody2D" groups=["enemies"]]
+position = Vector2(172, 49)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_0ualh")
+minion_scene = ExtResource("2_s05dw")
+
+[node name="HurtArea2d" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("3_l0j6i")
+
+[node name="HurtCollision2D" type="CollisionShape2D" parent="HurtArea2d"]
+z_index = 1
+shape = SubResource("CapsuleShape2D_2v46o")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_i82un")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -1)
+texture = ExtResource("4_1hgup")
+hframes = 3
+frame = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 100.0
+autostart = true
+
+[node name="MinionSpawn1" type="Marker2D" parent="."]
+position = Vector2(38, -13)
+
+[node name="MinionSpawn2" type="Marker2D" parent="."]
+position = Vector2(-34, -14)
+
+[node name="MinionSpawn3" type="Marker2D" parent="."]
+position = Vector2(-25, 25)
+
+[node name="MinionSpawn4" type="Marker2D" parent="."]
+position = Vector2(26, 26)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

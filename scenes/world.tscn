@@ -1,14 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://c115d0bjoit8o"]
+[gd_scene load_steps=13 format=3 uid="uid://c115d0bjoit8o"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_8qtep"]
 [ext_resource type="PackedScene" uid="uid://c1oaa1rrbyhm8" path="res://scenes/player.tscn" id="3_lpurv"]
 [ext_resource type="Texture2D" uid="uid://bok266l4qj3ac" path="res://assets/player.png" id="4_6und6"]
+[ext_resource type="PackedScene" uid="uid://ddyd2i0p5om8y" path="res://scenes/shooter_statue.tscn" id="4_521xk"]
+[ext_resource type="PackedScene" uid="uid://bxbt6ffg4sd3k" path="res://scenes/spawner_statue.tscn" id="5_0dir8"]
 [ext_resource type="PackedScene" uid="uid://be5wj8t6d4vk8" path="res://scenes/pause_menu.tscn" id="5_pxjkd"]
-[ext_resource type="Texture2D" uid="uid://c5kk837rgkth4" path="res://assets/statue_men.png" id="6_mpevm"]
-[ext_resource type="Script" path="res://scripts/shooter_statue.gd" id="6_p4prr"]
-[ext_resource type="Script" path="res://scripts/spawner_statue.gd" id="7_ti6px"]
-[ext_resource type="PackedScene" uid="uid://4ia6wloi8nk2" path="res://scenes/minion.tscn" id="8_aqt63"]
-[ext_resource type="Script" path="res://scripts/trap_statue.gd" id="8_g2tey"]
+[ext_resource type="PackedScene" uid="uid://bsg7bvtnl6nj3" path="res://scenes/trap_statue.tscn" id="6_yopi2"]
 
 [sub_resource type="Environment" id="Environment_xwg2y"]
 background_mode = 3
@@ -27,10 +25,6 @@ distance = -1152.0
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gwl2k"]
 distance = -648.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i82un"]
-radius = 7.0
-height = 24.0
-
 [node name="World" type="Node2D"]
 z_index = -1
 y_sort_enabled = true
@@ -48,6 +42,8 @@ offset_bottom = 291.0
 [node name="Player" parent="." instance=ExtResource("3_lpurv")]
 
 [node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 31
+collision_mask = 31
 
 [node name="top" type="CollisionShape2D" parent="Walls"]
 shape = SubResource("WorldBoundaryShape2D_d8ipo")
@@ -63,76 +59,11 @@ shape = SubResource("WorldBoundaryShape2D_kiwne")
 position = Vector2(1, -436)
 shape = SubResource("WorldBoundaryShape2D_gwl2k")
 
-[node name="ShooterStatue" type="CharacterBody2D" parent="."]
-texture_filter = 1
-position = Vector2(89, 84)
-script = ExtResource("6_p4prr")
+[node name="ShooterStatue" parent="." instance=ExtResource("4_521xk")]
 
-[node name="Sprite2D" type="Sprite2D" parent="ShooterStatue"]
-position = Vector2(-1.5, 0)
-texture = ExtResource("6_mpevm")
-hframes = 3
+[node name="SpawnerStatue" parent="." instance=ExtResource("5_0dir8")]
 
-[node name="BombTimer" type="Timer" parent="ShooterStatue"]
-autostart = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ShooterStatue"]
-position = Vector2(-0.5, 0)
-shape = SubResource("CapsuleShape2D_i82un")
-
-[node name="BombShooter" type="Marker2D" parent="ShooterStatue"]
-position = Vector2(0, -19)
-
-[node name="FireSpawner" type="Marker2D" parent="ShooterStatue"]
-position = Vector2(25, -72)
-
-[node name="SpawnerStatue" type="CharacterBody2D" parent="."]
-position = Vector2(172, 49)
-script = ExtResource("7_ti6px")
-minion_scene = ExtResource("8_aqt63")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="SpawnerStatue"]
-z_index = 1
-shape = SubResource("CapsuleShape2D_i82un")
-
-[node name="Sprite2D" type="Sprite2D" parent="SpawnerStatue"]
-texture_filter = 1
-position = Vector2(0, -1)
-texture = ExtResource("6_mpevm")
-hframes = 3
-frame = 1
-
-[node name="Timer" type="Timer" parent="SpawnerStatue"]
-wait_time = 4.0
-autostart = true
-
-[node name="MinionSpawn1" type="Marker2D" parent="SpawnerStatue"]
-position = Vector2(38, -13)
-
-[node name="MinionSpawn2" type="Marker2D" parent="SpawnerStatue"]
-position = Vector2(-34, -14)
-
-[node name="MinionSpawn3" type="Marker2D" parent="SpawnerStatue"]
-position = Vector2(-25, 25)
-
-[node name="MinionSpawn4" type="Marker2D" parent="SpawnerStatue"]
-position = Vector2(26, 26)
-
-[node name="TrapStatue" type="CharacterBody2D" parent="."]
-position = Vector2(260, 82)
-script = ExtResource("8_g2tey")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="TrapStatue"]
-z_index = 1
-position = Vector2(-0.5, 0)
-shape = SubResource("CapsuleShape2D_i82un")
-
-[node name="Sprite2D" type="Sprite2D" parent="TrapStatue"]
-texture_filter = 1
-position = Vector2(-0.5, 0)
-texture = ExtResource("6_mpevm")
-hframes = 3
-frame = 2
+[node name="TrapStatue" parent="." instance=ExtResource("6_yopi2")]
 
 [node name="WorldBackground" type="Sprite2D" parent="."]
 visible = false
@@ -141,6 +72,3 @@ z_index = -1
 position = Vector2(172.5, 106.5)
 scale = Vector2(21.4375, 13.1875)
 texture = ExtResource("4_6und6")
-
-[connection signal="timeout" from="ShooterStatue/BombTimer" to="ShooterStatue" method="_on_bomb_timer_timeout"]
-[connection signal="timeout" from="SpawnerStatue/Timer" to="SpawnerStatue" method="_on_timer_timeout"]

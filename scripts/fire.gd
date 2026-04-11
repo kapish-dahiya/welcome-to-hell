@@ -1,6 +1,11 @@
-extends Area2D
+extends Node2D
 
 var velocity = 70
+var fire_dmg := 5
+@onready var hit_area = $HitArea2d
+
+func _ready() -> void:
+	hit_area.dmg = fire_dmg
 
 func _process(delta: float) -> void:
 	$AnimationPlayer.play("fire")
