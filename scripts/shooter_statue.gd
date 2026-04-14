@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-var bomb_scene = preload("res://scenes/bomb.tscn")
-var fire_scene = preload("res://scenes/fire.tscn")
+@export var bomb_scene: PackedScene
+@export var fire_scene: PackedScene
 @onready var hurt_area = $HurtArea2d
 var health = 20;
 
@@ -31,22 +31,23 @@ func _on_bomb_timer_timeout() -> void:
 	bomb.global_position = bombshooter.global_position
 	get_tree().current_scene.add_child(bomb)
 	
-	var firespawner = $FireSpawner
+func _on_fire_timer_timeout() -> void:
 	var fire = fire_scene.instantiate()
-	fire.global_position = firespawner.global_position
-	get_tree().current_scene.add_child(fire)
-	
-	var firespawner2 = $FireSpawner2
 	var fire2 = fire_scene.instantiate()
-	fire.global_position = firespawner2.global_position
-	get_tree().current_scene.add_child(fire)
-	
-	var firespawner3 = $FireSpawner3
 	var fire3 = fire_scene.instantiate()
-	fire.global_position = firespawner3.global_position
-	get_tree().current_scene.add_child(fire)
-	
-	var firespawner4 = $FireSpawner4
 	var fire4 = fire_scene.instantiate()
+	
+	var firespawner = $FireSpawner
+	var firespawner2 = $FireSpawner2
+	var firespawner3 = $FireSpawner3
+	var firespawner4 = $FireSpawner4
+	
 	fire.global_position = firespawner.global_position
+	fire2.global_position = firespawner2.global_position
+	fire3.global_position = firespawner3.global_position
+	fire4.global_position = firespawner4.global_position
+	
 	get_tree().current_scene.add_child(fire)
+	get_tree().current_scene.add_child(fire2)
+	get_tree().current_scene.add_child(fire3)
+	get_tree().current_scene.add_child(fire4)

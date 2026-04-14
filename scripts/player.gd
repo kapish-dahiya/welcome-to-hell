@@ -70,22 +70,12 @@ func _set_health(value):
 @export var atk_cooldown: bool
 func _physics_process(_delta):
 	is_attacking = false
-	
-	if not $AtkCooldown.is_stopped():
-		return
-		
-	if Input.is_action_pressed("shoot") and not is_attacking:
+	if Input.is_action_pressed("shoot") and not is_attacking and $AtkCooldown.is_stopped():
 		is_attacking = true
 		$Bow/BowAnimationPlayer.play("bow")
 		charged_held_time += _delta
-	
-	if atk_cooldown:
-		$Bow/BowAnimationPlayer.play("RESET")
-		
 	if is_attacking:
 		velocity = Vector2.ZERO
-		
-	
 	if Input.is_action_just_released("shoot"):
 		if charged_held_time >= 2.25:
 			$Bow/BowAnimationPlayer.play("RESET")
@@ -97,27 +87,29 @@ func _physics_process(_delta):
 			get_tree().current_scene.add_child(arrow)
 			get_tree().current_scene.add_child(big_shot)
 			$AtkCooldown.start(0.5)
+			$Bow/BowAnimationPlayer.play("cooldown")
 			is_attacking = false
-		elif charged_held_time >= 1.65:
+		elif charged_held_time >= 1:
 			$Bow/BowAnimationPlayer.play("RESET")
 			charged_held_time = 0
 			var big_shot = big_shot_scene.instantiate()
 			big_shot.global_position = bow.global_position
 			get_tree().current_scene.add_child(big_shot)
 			$AtkCooldown.start(1)
+			$Bow/BowAnimationPlayer.play("cooldown")
 			is_attacking = false
 			
-		elif charged_held_time >= 1:
+		elif charged_held_time >= 0.25:
 			$Bow/BowAnimationPlayer.play("RESET")
 			charged_held_time = 0
 			var small_shot = small_shot_scene.instantiate()
 			small_shot.global_position = bow.global_position
 			get_tree().current_scene.add_child(small_shot)
 			$AtkCooldown.start(2)
+			$Bow/BowAnimationPlayer.play("cooldown")
 			is_attacking = false
 			
 		else:
-			#is_attacking = false
 			$Bow/BowAnimationPlayer.play("RESET")
 			
 	else:
@@ -140,3 +132,6 @@ func _physics_process(_delta):
 				Vector2(-1, 0): animation.play("walk_down_left")
 				Vector2.ZERO: animation.play(animation.current_animation.replace("walk", "reset"))
 			move_and_slide()
+
+func _on_atk_cooldown_timeout() -> void:
+	$Bow/BowAnimationPlayer.play("RESET")

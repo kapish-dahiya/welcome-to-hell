@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddyd2i0p5om8y"]
+[gd_scene load_steps=8 format=3 uid="uid://ddyd2i0p5om8y"]
 
 [ext_resource type="Script" path="res://scripts/shooter_statue.gd" id="1_q6sta"]
 [ext_resource type="Script" path="res://scripts/HurtArea2d.gd" id="2_40or8"]
 [ext_resource type="Texture2D" uid="uid://c5kk837rgkth4" path="res://assets/statue_men.png" id="2_1723n"]
+[ext_resource type="PackedScene" uid="uid://blfigg775phnd" path="res://scenes/bomb.tscn" id="2_h07q3"]
+[ext_resource type="PackedScene" uid="uid://b07r6pihb20s" path="res://scenes/fire.tscn" id="3_n8lba"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i82un"]
 radius = 11.5
@@ -16,6 +18,8 @@ height = 26.0
 texture_filter = 1
 position = Vector2(89, 84)
 script = ExtResource("1_q6sta")
+bomb_scene = ExtResource("2_h07q3")
+fire_scene = ExtResource("3_n8lba")
 
 [node name="HurtArea2d" type="Area2D" parent="."]
 collision_layer = 4
@@ -38,6 +42,8 @@ hframes = 3
 wait_time = 2.0
 autostart = true
 
+[node name="FireTimer" type="Timer" parent="."]
+
 [node name="BombShooter" type="Marker2D" parent="."]
 position = Vector2(0, -19)
 
@@ -51,6 +57,7 @@ position = Vector2(145, -78)
 position = Vector2(-86, -81)
 
 [node name="FireSpawner4" type="Marker2D" parent="."]
-position = Vector2(245, -81)
+position = Vector2(239, -61)
 
 [connection signal="timeout" from="BombTimer" to="." method="_on_bomb_timer_timeout"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
