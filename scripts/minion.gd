@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var player: Node2D
 
-const SPEED:int = 50;
+const SPEED:int = 40;
 var health:int = 5;
 var minion_dmg: int = 1
 @onready var hit_area = $HitArea2d

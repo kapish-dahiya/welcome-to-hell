@@ -48,8 +48,8 @@ _data = {
 script = ExtResource("1_u1dlm")
 
 [node name="HitArea2d" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 0
+collision_layer = 24
+collision_mask = 16
 script = ExtResource("2_fo5em")
 
 [node name="FireCollision" type="CollisionShape2D" parent="HitArea2d"]
@@ -65,3 +65,6 @@ hframes = 7
 libraries = {
 "": SubResource("AnimationLibrary_of5eo")
 }
+
+[connection signal="area_entered" from="HitArea2d" to="." method="_on_hit_area_2d_area_entered"]
+[connection signal="body_entered" from="HitArea2d" to="." method="_on_hit_area_2d_body_entered"]

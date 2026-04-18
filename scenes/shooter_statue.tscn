@@ -17,6 +17,8 @@ height = 26.0
 [node name="ShooterStatue" type="CharacterBody2D" groups=["enemies"]]
 texture_filter = 1
 position = Vector2(89, 84)
+collision_layer = 20
+collision_mask = 17
 script = ExtResource("1_q6sta")
 bomb_scene = ExtResource("2_h07q3")
 fire_scene = ExtResource("3_n8lba")
@@ -39,13 +41,23 @@ texture = ExtResource("2_1723n")
 hframes = 3
 
 [node name="BombTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 4.0
 autostart = true
 
 [node name="FireTimer" type="Timer" parent="."]
+autostart = true
 
 [node name="BombShooter" type="Marker2D" parent="."]
-position = Vector2(0, -19)
+position = Vector2(-10, -13)
+
+[node name="BombShooter2" type="Marker2D" parent="."]
+position = Vector2(-11, 10)
+
+[node name="BombShooter3" type="Marker2D" parent="."]
+position = Vector2(10, 10)
+
+[node name="BombShooter4" type="Marker2D" parent="."]
+position = Vector2(9, -13)
 
 [node name="FireSpawner" type="Marker2D" parent="."]
 position = Vector2(25, -71)

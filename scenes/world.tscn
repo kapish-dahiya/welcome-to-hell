@@ -41,7 +41,7 @@ offset_bottom = 291.0
 
 [node name="Player" parent="." instance=ExtResource("3_lpurv")]
 
-[node name="Walls" type="StaticBody2D" parent="."]
+[node name="Walls" type="StaticBody2D" parent="." groups=["walls"]]
 collision_layer = 31
 collision_mask = 31
 
@@ -66,8 +66,7 @@ shape = SubResource("WorldBoundaryShape2D_gwl2k")
 [node name="TrapStatue" parent="." instance=ExtResource("6_yopi2")]
 
 [node name="WorldBackground" type="Sprite2D" parent="."]
-visible = false
-self_modulate = Color(0.396078, 1, 0, 1)
+self_modulate = Color(0.32, 0.8, 0, 1)
 z_index = -1
 position = Vector2(172.5, 106.5)
 scale = Vector2(21.4375, 13.1875)

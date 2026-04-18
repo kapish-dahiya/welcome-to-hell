@@ -19,7 +19,7 @@ var charged_held_time: float= 0.0
 	
 @export var max_health := 50
 @onready var health := max_health :set = _set_health
-@onready var hurt_area = $HurtArea2d
+@onready var hurt_area = $PlayerHurtArea2d
 
 func _ready() -> void:
 	if hurt_area != null:
@@ -27,8 +27,6 @@ func _ready() -> void:
 		print("Player connected to the signal")
 	else:
 		print("error: Player found no hurtarea2d")
-	
-
 		
 func _on_hurt_area_triggered(silly_message: String, damage_amount: int) -> void:
 	print("hurtarea got signal")
