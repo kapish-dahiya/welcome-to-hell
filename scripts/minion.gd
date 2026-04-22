@@ -5,8 +5,8 @@ extends CharacterBody2D
 const SPEED:int = 40;
 var health:int = 5;
 var minion_dmg: int = 1
-@onready var hit_area = $HitArea2d
-@onready var hurt_area = $HurtArea2d
+@onready var hit_area: Area2D = $HitArea2d
+@onready var hurt_area: Area2D = $HurtArea2d
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
@@ -33,7 +33,6 @@ func take_dmg(amount: int) -> void:
 		self.queue_free()
 func _physics_process(_delta) -> void:
 	velocity = (player.global_position - global_position).normalized() * SPEED
-
 	move_and_slide();
 	look_at(player.global_position)
 	

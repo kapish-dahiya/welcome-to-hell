@@ -1,11 +1,11 @@
 extends CharacterBody2D
-#@export var cage_scene: PackedScene
-@onready var hurt_area = $HurtArea2d
-@export var cage_scene: PackedScene
-var health = 20;
+@onready var hurt_area: Area2D = $HurtArea2d
+var health: int = 20
 var player: Node2D
+@export var cage_array:Array[PackedScene]
 
 func _ready() -> void:
+	
 	player = get_tree().get_first_node_in_group("player")
 	if hurt_area != null:
 		hurt_area.my_custom_signal.connect(_on_hurt_area_triggered)
@@ -29,6 +29,7 @@ func take_dmg(amount: int) -> void:
 
 func _on_timer_timeout() -> void:	
 	print("time for cage")
-	var cage = cage_scene.instantiate()
+	var selected_cage_scene = cage_array.pick_random()
+	var cage = selected_cage_scene.instantiate()
 	get_tree().current_scene.add_child(cage)
 	cage.global_position = player.global_position

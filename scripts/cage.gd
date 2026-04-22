@@ -1,9 +1,10 @@
 extends Node2D
-@onready var hurt_area = $HurtArea2d
+@onready var hurt_area: Area2D = $HurtArea2d
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
 var health: int = 5
 
 func _ready() -> void:
-	$AnimationPlayer.play("cage")
+	anim_player.play("cage")
 	if hurt_area != null:
 		hurt_area.my_custom_signal.connect(_on_hurt_area_triggered)
 		print("shooter connected to the signal")

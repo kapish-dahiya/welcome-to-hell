@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 @export var bomb_scene: PackedScene
 @export var fire_scene: PackedScene
-@onready var hurt_area = $HurtArea2d
-var health = 20;
+@onready var hurt_area: Area2D = $HurtArea2d
+var health := 20;
 
 func _ready() -> void:
 	if hurt_area != null:

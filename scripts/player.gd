@@ -7,13 +7,14 @@ var arrow_scene = preload("res://scenes/arrow.tscn")
 var big_shot_scene = preload("res://scenes/big_shot.tscn")
 var small_shot_scene = preload("res://scenes/small_shot.tscn")
 
-@onready var bow = $Bow
-@onready var animation = $AnimationPlayer
+@onready var bow: Node2D = $Bow
+@onready var animation: AnimationPlayer = $AnimationPlayer
 #health 
-@onready var invulnerability_timer = $Invulnerability
-@onready var effects_animation = $EffectsAnimation
-
-const SPEED = 120
+@onready var invulnerability_timer: Timer = $Invulnerability
+@onready var effects_animation: AnimationPlayer = $EffectsAnimation
+@onready var bow_anim_player: AnimationPlayer = $Bow/BowAnimationPlayer
+@onready var atk_cooldown: Timer = $AtkCooldown
+const SPEED := 120
 var charged_held_time: float= 0.0
 
 	
@@ -35,8 +36,8 @@ func _on_hurt_area_triggered(silly_message: String, damage_amount: int) -> void:
 	
 
 func kill():
-	self.queue_free()
-	
+	get_tree().paused = true
+
 func take_dmg(amount):
 	if invulnerability_timer.is_stopped():
 		invulnerability_timer.start()
@@ -65,18 +66,17 @@ func _set_health(value):
 
 
 @export var is_attacking:bool
-@export var atk_cooldown: bool
 func _physics_process(_delta):
 	is_attacking = false
-	if Input.is_action_pressed("shoot") and not is_attacking and $AtkCooldown.is_stopped():
+	if Input.is_action_pressed("shoot") and not is_attacking and atk_cooldown.is_stopped():
 		is_attacking = true
-		$Bow/BowAnimationPlayer.play("bow")
+		bow_anim_player.play("bow")
 		charged_held_time += _delta
 	if is_attacking:
 		velocity = Vector2.ZERO
 	if Input.is_action_just_released("shoot"):
 		if charged_held_time >= 2.25:
-			$Bow/BowAnimationPlayer.play("RESET")
+			bow_anim_player.play("RESET") # because of attack cooldown turning bow black
 			charged_held_time = 0
 			var big_shot = big_shot_scene.instantiate()
 			var arrow = arrow_scene.instantiate()
@@ -84,31 +84,31 @@ func _physics_process(_delta):
 			big_shot.global_position = bow.global_position
 			get_tree().current_scene.add_child(arrow)
 			get_tree().current_scene.add_child(big_shot)
-			$AtkCooldown.start(0.5)
-			$Bow/BowAnimationPlayer.play("cooldown")
+			atk_cooldown.start(0.5)
+			bow_anim_player.play("cooldown")
 			is_attacking = false
 		elif charged_held_time >= 1:
-			$Bow/BowAnimationPlayer.play("RESET")
+			bow_anim_player.play("RESET")
 			charged_held_time = 0
 			var big_shot = big_shot_scene.instantiate()
 			big_shot.global_position = bow.global_position
 			get_tree().current_scene.add_child(big_shot)
-			$AtkCooldown.start(1)
-			$Bow/BowAnimationPlayer.play("cooldown")
+			atk_cooldown.start(1)
+			bow_anim_player.play("cooldown")
 			is_attacking = false
 			
 		elif charged_held_time >= 0.25:
-			$Bow/BowAnimationPlayer.play("RESET")
+			bow_anim_player.play("RESET")
 			charged_held_time = 0
 			var small_shot = small_shot_scene.instantiate()
 			small_shot.global_position = bow.global_position
 			get_tree().current_scene.add_child(small_shot)
-			$AtkCooldown.start(2)
-			$Bow/BowAnimationPlayer.play("cooldown")
+			atk_cooldown.start(2)
+			bow_anim_player.play("cooldown")
 			is_attacking = false
 			
 		else:
-			$Bow/BowAnimationPlayer.play("RESET")
+			bow_anim_player.play("RESET")
 			
 	else:
 		if not is_attacking:
@@ -132,4 +132,4 @@ func _physics_process(_delta):
 			move_and_slide()
 
 func _on_atk_cooldown_timeout() -> void:
-	$Bow/BowAnimationPlayer.play("RESET")
+	bow_anim_player.play("RESET")

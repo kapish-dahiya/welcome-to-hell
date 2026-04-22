@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 @export var minion_scene: PackedScene
-@export var health = 10
-@onready var hurt_area = $HurtArea2d
+@export var health: int = 10
+@onready var hurt_area: Area2D = $HurtArea2d
 
 func _ready() -> void:
 	if hurt_area != null:
@@ -27,10 +27,10 @@ func take_dmg(amount: int) -> void:
 		self.queue_free()
 	
 func _on_timer_timeout() -> void:
-	var minion_spawn1 = $MinionSpawn1
-	var minion_spawn2 = $MinionSpawn2
-	var minion_spawn3 = $MinionSpawn3
-	var minion_spawn4 = $MinionSpawn4
+	var minion_spawn1: Marker2D = $MinionSpawn1
+	var minion_spawn2: Marker2D = $MinionSpawn2
+	var minion_spawn3: Marker2D = $MinionSpawn3
+	var minion_spawn4: Marker2D = $MinionSpawn4
 
 	var minion1 = minion_scene.instantiate()
 	minion1.global_position = minion_spawn1.global_position

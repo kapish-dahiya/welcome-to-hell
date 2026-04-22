@@ -12,7 +12,7 @@ height = 26.0
 radius = 6.05225
 
 [node name="Arrow" type="CharacterBody2D"]
-collision_layer = 16
+collision_layer = 2
 collision_mask = 16
 script = ExtResource("1_ghufd")
 
