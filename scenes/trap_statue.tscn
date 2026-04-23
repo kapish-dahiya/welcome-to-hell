@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bsg7bvtnl6nj3"]
+[gd_scene load_steps=11 format=3 uid="uid://bsg7bvtnl6nj3"]
 
 [ext_resource type="Script" path="res://scripts/trap_statue.gd" id="1_vmgrl"]
 [ext_resource type="Texture2D" uid="uid://c5kk837rgkth4" path="res://assets/statue_men.png" id="2_hu47i"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cikipyycr4u6e" path="res://scenes/rotated_cage.tscn" id="3_i0p4w"]
 [ext_resource type="PackedScene" uid="uid://dxwmtksv4wfwk" path="res://scenes/cage_horizontal.tscn" id="4_nb1qa"]
 [ext_resource type="PackedScene" uid="uid://bk26gwyk35wtp" path="res://scenes/rotated_horizontal_cage.tscn" id="5_k5se2"]
+[ext_resource type="PackedScene" uid="uid://c6t67yi4y5jbr" path="res://scenes/spikes.tscn" id="6_m8q4y"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dcgyl"]
 radius = 11.0
@@ -22,6 +23,7 @@ collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_vmgrl")
 cage_array = Array[PackedScene]([ExtResource("2_huxs0"), ExtResource("3_i0p4w"), ExtResource("4_nb1qa"), ExtResource("5_k5se2")])
+spikes_scene = ExtResource("6_m8q4y")
 
 [node name="HurtArea2d" type="Area2D" parent="."]
 collision_layer = 4
@@ -44,7 +46,12 @@ hframes = 3
 frame = 2
 
 [node name="CageTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 7.0
+autostart = true
+
+[node name="SpikesTimer" type="Timer" parent="."]
+wait_time = 2.0
 autostart = true
 
 [connection signal="timeout" from="CageTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="SpikesTimer" to="." method="_on_spikes_timer_timeout"]

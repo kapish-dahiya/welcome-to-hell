@@ -3,6 +3,7 @@ extends CharacterBody2D
 var health: int = 20
 var player: Node2D
 @export var cage_array:Array[PackedScene]
+@export var spikes_scene:PackedScene
 
 func _ready() -> void:
 	
@@ -28,8 +29,16 @@ func take_dmg(amount: int) -> void:
 		self.queue_free()
 
 func _on_timer_timeout() -> void:	
-	print("time for cage")
 	var selected_cage_scene = cage_array.pick_random()
 	var cage = selected_cage_scene.instantiate()
 	get_tree().current_scene.add_child(cage)
 	cage.global_position = player.global_position
+
+
+func _on_spikes_timer_timeout() -> void:
+	print("spikes time")
+	var spikes = spikes_scene.instantiate()
+	spikes.global_position = self.global_position
+	get_tree().current_scene.add_child(spikes)
+	pass
+	

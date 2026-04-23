@@ -5,8 +5,8 @@
 [ext_resource type="Script" path="res://scripts/HitArea2d.gd" id="2_xb7no"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iw136"]
-radius = 13.0
-height = 172.0
+radius = 11.5
+height = 168.0
 
 [sub_resource type="Animation" id="Animation_qi55q"]
 length = 0.001
@@ -37,7 +37,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_l5xu6"]
 resource_name = "boom"
-step = 0.1
+length = 0.500008
+step = 0.0833333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -45,7 +46,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.0833333, 0.166667, 0.25, 0.333333, 0.416667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]

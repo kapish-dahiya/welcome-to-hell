@@ -1,7 +1,7 @@
 extends Node2D
 
 var speed := 70
-var fire_dmg := 5
+var fire_dmg := 1
 @onready var hit_area: Area2D = $HitArea2d
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 func _ready() -> void:

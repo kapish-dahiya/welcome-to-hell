@@ -2,7 +2,7 @@ extends RigidBody2D
 var bomb_speed: int;
 var random_angle = randf_range(deg_to_rad(-135), deg_to_rad(-45))
 var throw_direction: Vector2 = Vector2.from_angle(random_angle)
-var bomb_dmg := 5
+var bomb_dmg := 1
 @onready var hit_area: Area2D = $HitArea2d
 @onready var hit_area1: Area2D = $Explosion
 @onready var bomb_sprite: Sprite2D = $BombSprite
